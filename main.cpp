@@ -7,14 +7,24 @@ using namespace std;
 
 long long hash_string(string s, int p, long m ){
 
-    for (int i = 0; i < s.length(); i++) {
-        char caracter = s[i];
-        
-        cout << caracter << endl;
+    long long hash = 0;
+    long long power = 1;
+    int n = s.length();
+    // Calcula p^(n-1) para el primer caracter
+    for (int i = 0; i < n - 1; i++) {
+        power = (power * p) % m;
     }
-    return 0;
+    for (int i = 0; i < n; i++) {
+        hash = (hash + (s[i] * power) % m) % m;
+        if (power > 1) {
+            power = (power * modInverse(p, m)) % m;
+        } else {
+            power = 1;
+        }
+    }
+    return hash;
 }
 
 int main() { 
-    cout << hash_string("hola", 3, 10000000009) << endl;;
+    cout << hash_string("hola", 3, 10000000009) << endl;
 }
